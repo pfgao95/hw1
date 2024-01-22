@@ -105,21 +105,79 @@
 
 -- Drop existing tables, so you'll start fresh each time this script is run.
 -- TODO!
+DROP TABLE IF EXISTS movies;
+DROP TABLE IF EXISTS characters;
+DROP TABLE IF EXISTS studios;
 
 -- Create new tables, according to your domain model
 -- TODO!
 
+CREATE TABLE movies (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title TEXT,
+  year_released TEXT,
+  MPAA_rating TEXT,
+  studio_id INTEGER
+);
+
+CREATE TABLE characters (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  character_name TEXT,
+  actor_name TEXT,
+  movie_id INTEGER
+);
+
+CREATE TABLE studios (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  studio_name TEXT
+);
+
 -- Insert data into your database that reflects the sample data shown above
 -- Use hard-coded foreign key IDs when necessary
 -- TODO!
+
+INSERT INTO movies (title, year_released, MPAA_rating, studio_id) 
+VALUES ("Batman Begins", "2005", "PG-13", 1),
+       ("The Dark Knight", "2008", "PG-13", 1),
+       ("The Dark Knight Rises", "2012", "PG-13", 1);
+
+
+INSERT INTO characters (character_name, actor_name, movie_id) 
+VALUES ("Bruce Wayne", "Christian Bale", 1),
+       ("Alfred", "Michael Caine", 1),
+       ("Ra's Al Ghul", "Liam Neeson2", 1),
+       ("Rachel Dawes", "Katie Holmes", 1),
+       ("Commissioner Gordon", "Gary Oldman", 1),
+       ("Bruce Wayne", "Christian Bale", 2),
+       ("Joker", "Heath Ledger", 2),
+       ("Harvey Dent", "Aaron Eckhart", 2),
+       ("Alfred", "Michael Caine", 2),
+       ("Rachel Dawes", "Maggie Gyllenhaal", 2),
+       ("Bruce Wayne", "Christian Bale", 3),
+       ("Commissioner Gordon", "Gary Oldman", 3),
+       ("Bane", "Tom Hardy", 3),
+       ("John Blake", "Joseph Gordon-Levitt", 3),
+       ("Selina Kyle", "Anne Hathaway", 3)
+       ;
+
+
+INSERT INTO studios (studio_name) 
+VALUES ("Warner Bros");
+
+
+
 
 -- Prints a header for the movies output
 .print "Movies"
 .print "======"
 .print ""
 
+
 -- The SQL statement for the movies output
 -- TODO!
+SELECT movies.title, movies.year_released, movies.MPAA_rating, studios.studio_name FROM movies
+INNER JOIN studios ON movies.studio_id=studios.id;
+
 
 -- Prints a header for the cast output
 .print ""
@@ -128,5 +186,8 @@
 .print ""
 
 
+
 -- The SQL statement for the cast output
 -- TODO!
+SELECT movies.title, characters.actor_name, characters.character_name FROM movies
+INNER JOIN characters ON characters.movie_id=movies.id;
